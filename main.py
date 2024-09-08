@@ -64,7 +64,7 @@ async def handler_new_message(update: Update, context: ContextTypes.DEFAULT_TYPE
         await update.effective_chat.send_message("⚠️ can't find files extension!\n⌛ Downloading please wait!")
     await update.effective_chat.send_action(ChatAction.UPLOAD_DOCUMENT)
     file = await file.download_to_drive(DOWNLOAD_DIR.joinpath(uuid.uuid4().hex + '.' + file_type))
-    await update.effective_chat.send_message(f"✅ file saved to: {file.relative_to(DOWNLOAD_DIR).as_posix()!r}")
+    await update.effective_chat.send_message(f"✅ your files link: https://cdn.autogem.ir/downloads/{file.relative_to(DOWNLOAD_DIR).as_posix()!r}")
 
 #
 # async def download_youtube(update: Update, context: CallbackContext):
@@ -99,6 +99,5 @@ async def handler_new_message(update: Update, context: ContextTypes.DEFAULT_TYPE
 app.add_handler(CommandHandler('start', start))
 app.add_handler(MessageHandler(filters=(filters.ALL & (~filters.COMMAND)), callback=handler_new_message))
 app.add_handler(CallbackQueryHandler(callback=cancel, pattern="^(cancel)$"))
-app.add_handler(CallbackQueryHandler(callback=download_youtube, pattern="^(yt_)"))
 
 app.run_polling(allowed_updates=[Update.CALLBACK_QUERY, Update.MESSAGE, Update.INLINE_QUERY])
